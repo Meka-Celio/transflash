@@ -9,7 +9,7 @@ class AdminDashboard {
     init() {
         // Vérifier l'authentification
         if (!this.isAuthenticated()) {
-            window.location.href = 'admin-login.html';
+            window.location.href = '/admin-login.html';
             return;
         }
 
@@ -394,7 +394,7 @@ class AdminDashboard {
         if (confirm('Êtes-vous sûr de vouloir vous déconnecter ?')) {
             localStorage.removeItem('adminSession');
             sessionStorage.removeItem('adminAuth');
-            window.location.href = 'admin-login.html';
+            window.location.href = '/admin-login.html';
         }
     }
 }

@@ -11,7 +11,7 @@ class AdminAuth {
     init() {
         // Vérifier si déjà connecté
         if (this.isAuthenticated()) {
-            window.location.href = 'admin-dashboard.html';
+            window.location.href = '/admin-dashboard.html';
             return;
         }
 
@@ -65,7 +65,7 @@ class AdminAuth {
         setTimeout(() => {
             if (this.authenticate(username, password)) {
                 this.setAuthSession();
-                window.location.href = 'admin-dashboard.html';
+                window.location.href = '/admin-dashboard.html';
             } else {
                 this.showError('loginError', 'Nom d\'utilisateur ou mot de passe incorrect');
                 loginBtn.classList.remove('loading');
@@ -134,7 +134,7 @@ class AdminAuth {
     logout() {
         localStorage.removeItem('adminSession');
         sessionStorage.removeItem('adminAuth');
-        window.location.href = 'admin-login.html';
+        window.location.href = '/admin-login.html';
     }
 
     showError(elementId, message) {
