@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TransFlash - Transfert d'argent</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- En-tête -->
+        <header class="header">
+            <div class="logo">
+                <div class="logo-text">
+                    <span class="trans">TRANS</span>
+                    <span class="flash">FLASH</span>
+                    <!-- Accès admin caché - Triple clic sur le logo -->
+                    <div id="adminAccess" style="display: none;">
+                        <a href="admin-login.html" style="color: #666; font-size: 12px; text-decoration: none;">Admin</a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Indicateur d'étapes -->
+        <div class="progress-bar">
+            <div class="step active" data-step="1">
+                <div class="step-number">1</div>
+                <span>Montant</span>
+            </div>
+            <div class="step" data-step="2">
+                <div class="step-number">2</div>
+                <span>Informations</span>
+            </div>
+            <div class="step" data-step="3">
+                <div class="step-number">3</div>
+                <span>Confirmation</span>
+            </div>
+        </div>
+
+        <!-- Contenu principal -->
+        <main class="main-content">
+            <!-- Étape 1: Sélection des pays et montants -->
+            <div id="step1" class="form-step active">
+                <div class="form-card">
+                    <h2>Bienvenue</h2>
+                    <p class="subtitle">Commençons !</p>
+                    
+                    <div class="form-group">
+                        <label>Pays d'envoi</label>
+                        <div class="country-select" id="sendCountry">
+                            <div class="country-flag">🇲🇦</div>
+                            <div class="country-info">
+                                <small>Vous envoyez depuis</small>
+                                <strong>Maroc</strong>
+                            </div>
+                            <div class="dropdown-arrow">▼</div>
+                        </div>
+                        <div class="country-dropdown" id="sendCountryDropdown">
+                            <div class="country-option" data-country="ma" data-currency="MAD">
+                                <span class="flag">🇲🇦</span> Maroc (MAD)
+                            </div>
+                            <div class="country-option" data-country="fr" data-currency="EUR">
+                                <span class="flag">🇫🇷</span> France (EUR)
+                            </div>
+                            <div class="country-option" data-country="sn" data-currency="XOF">
+                                <span class="flag">🇸🇳</span> Sénégal (XOF)
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Pays de destination</label>
+                        <div class="country-select" id="receiveCountry">
+                            <div class="country-flag">🇬🇦</div>
+                            <div class="country-info">
+                                <small>Sélectionnez le pays de votre bénéficiaire</small>
+                                <strong>Gabon</strong>
+                            </div>
+                            <div class="dropdown-arrow">▼</div>
+                        </div>
+                        <div class="country-dropdown" id="receiveCountryDropdown">
+                            <div class="country-option" data-country="ga" data-currency="XAF">
+                                <span class="flag">🇬🇦</span> Gabon (XAF)
+                            </div>
+                            <div class="country-option" data-country="ci" data-currency="XOF">
+                                <span class="flag">🇨🇮</span> Côte d'Ivoire (XOF)
+                            </div>
+                            <div class="country-option" data-country="cm" data-currency="XAF">
+                                <span class="flag">🇨🇲</span> Cameroun (XAF)
+                            </div>
+                            <div class="country-option" data-country="sn" data-currency="XOF">
+                                <span class="flag">🇸🇳</span> Sénégal (XOF)
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="amount-section">
+                        <div class="amount-input-group">
+                            <div class="amount-input">
+                                <label>Vous envoyez</label>
+                                <input type="number" id="sendAmount" value="100" min="1">
+                                <div class="currency-selector" id="sendCurrency">MAD ▼</div>
+                            </div>
+                            
+                            <div class="conversion-arrow">⇄</div>
+                            
+                            <div class="amount-input">
+                                <label>Le bénéficiaire recevra</label>
+                                <input type="number" id="receiveAmount" value="65596" readonly>
+                                <div class="currency-display" id="receiveCurrency">XAF</div>
+                            </div>
+                        </div>
+                        
+                        <div class="transfer-info">
+                            <div class="info-item">
+                                <span>Taux de change:</span>
+                                <span id="exchangeRate">1 MAD = 655.96 XAF</span>
+                            </div>
+                            <div class="info-item">
+                                <span>Frais de transfert:</span>
+                                <span id="fees">5.00 MAD</span>
+                            </div>
+                            <div class="info-item total">
+                                <span>Montant total à débiter:</span>
+                                <span id="totalAmount">105.00 MAD</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="button" class="btn-primary" id="nextStep1">Suivant</button>
+                </div>
+            </div>
+
+            <!-- Étape 2: Informations personnelles -->
+            <div id="step2" class="form-step">
+                <div class="form-card">
+                    <h2>Informations personnelles</h2>
+                    
+                    <div class="section">
+                        <h3>Qui envoie</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="senderName">Nom complet *</label>
+                                <input type="text" id="senderName" required>
+                                <div class="error-message" id="senderNameError"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="senderPhone">Numéro de téléphone *</label>
+                                <input type="tel" id="senderPhone" required>
+                                <div class="error-message" id="senderPhoneError"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="senderEmail">Adresse email *</label>
+                                <input type="email" id="senderEmail" required>
+                                <div class="error-message" id="senderEmailError"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <h3>Qui reçoit</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="receiverName">Nom complet *</label>
+                                <input type="text" id="receiverName" required>
+                                <div class="error-message" id="receiverNameError"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="receiverPhone">Numéro de téléphone *</label>
+                                <input type="tel" id="receiverPhone" required>
+                                <div class="error-message" id="receiverPhoneError"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <h3>Mode de dépôt</h3>
+                        <div class="deposit-options">
+                            <label class="deposit-option">
+                                <input type="radio" name="depositMode" value="physical" checked>
+                                <div class="option-content">
+                                    <div class="option-icon">🏢</div>
+                                    <div class="option-text">
+                                        <strong>Dépôt physique</strong>
+                                        <small>Récupération en agence</small>
+                                    </div>
+                                </div>
+                            </label>
+                            
+                            <label class="deposit-option">
+                                <input type="radio" name="depositMode" value="virtual">
+                                <div class="option-content">
+                                    <div class="option-icon">💳</div>
+                                    <div class="option-text">
+                                        <strong>Dépôt virtuel</strong>
+                                        <small>Virement bancaire ou mobile money</small>
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary" id="prevStep2">Précédent</button>
+                        <button type="button" class="btn-primary" id="nextStep2">Suivant</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Étape 3: Récapitulatif et validation -->
+            <div id="step3" class="form-step">
+                <div class="form-card">
+                    <h2>Récapitulatif de votre transfert</h2>
+                    
+                    <div class="summary-section">
+                        <h3>Détails du transfert</h3>
+                        <div class="summary-item">
+                            <span>De:</span>
+                            <span id="summaryFromCountry"></span>
+                        </div>
+                        <div class="summary-item">
+                            <span>Vers:</span>
+                            <span id="summaryToCountry"></span>
+                        </div>
+                        <div class="summary-item">
+                            <span>Montant envoyé:</span>
+                            <span id="summarySendAmount"></span>
+                        </div>
+                        <div class="summary-item">
+                            <span>Montant reçu:</span>
+                            <span id="summaryReceiveAmount"></span>
+                        </div>
+                        <div class="summary-item">
+                            <span>Taux de change:</span>
+                            <span id="summaryExchangeRate"></span>
+                        </div>
+                        <div class="summary-item">
+                            <span>Frais:</span>
+                            <span id="summaryFees"></span>
+                        </div>
+                        <div class="summary-item total">
+                            <span>Total à payer:</span>
+                            <span id="summaryTotal"></span>
+                        </div>
+                    </div>
+
+                    <div class="summary-section">
+                        <h3>Expéditeur</h3>
+                        <div class="summary-item">
+                            <span>Nom:</span>
+                            <span id="summarySenderName"></span>
+                        </div>
+                        <div class="summary-item">
+                            <span>Téléphone:</span>
+                            <span id="summarySenderPhone"></span>
+                        </div>
+                        <div class="summary-item">
+                            <span>Email:</span>
+                            <span id="summarySenderEmail"></span>
+                        </div>
+                    </div>
+
+                    <div class="summary-section">
+                        <h3>Bénéficiaire</h3>
+                        <div class="summary-item">
+                            <span>Nom:</span>
+                            <span id="summaryReceiverName"></span>
+                        </div>
+                        <div class="summary-item">
+                            <span>Téléphone:</span>
+                            <span id="summaryReceiverPhone"></span>
+                        </div>
+                        <div class="summary-item">
+                            <span>Mode de réception:</span>
+                            <span id="summaryDepositMode"></span>
+                        </div>
+                    </div>
+
+                    <div class="terms-section">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="acceptTerms" required>
+                            <span class="checkmark"></span>
+                            J'accepte les <a href="#" target="_blank">conditions générales</a> et la <a href="#" target="_blank">politique de confidentialité</a>
+                        </label>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary" id="prevStep3">Précédent</button>
+                        <button type="button" class="btn-primary" id="validateTransfer">Valider le transfert</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal de confirmation -->
+            <div id="confirmationModal" class="modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>Transfert confirmé !</h3>
+                    </div>
+                    <div class="modal-body">
+                        <div class="success-icon">✅</div>
+                        <p>Votre transfert a été enregistré avec succès.</p>
+                        <p><strong>Référence:</strong> <span id="transferReference"></span></p>
+                        <p>Vous recevrez un email de confirmation sous peu.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn-primary" id="newTransfer">Nouveau transfert</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

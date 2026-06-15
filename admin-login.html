@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TransFlash - Connexion Administrateur</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="admin-style.css">
+</head>
+<body>
+    <div class="admin-login-container">
+        <div class="admin-login-card">
+            <div class="admin-header">
+                <div class="logo-text">
+                    <span class="trans">TRANS</span>
+                    <span class="flash">FLASH</span>
+                </div>
+                <h2>Administration</h2>
+                <p>Connexion sécurisée</p>
+            </div>
+            
+            <form id="adminLoginForm" class="admin-login-form">
+                <div class="form-group">
+                    <label for="adminUsername">Nom d'utilisateur</label>
+                    <input type="text" id="adminUsername" required>
+                    <div class="error-message" id="usernameError"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="adminPassword">Mot de passe</label>
+                    <input type="password" id="adminPassword" required>
+                    <div class="error-message" id="passwordError"></div>
+                </div>
+                
+                <div class="error-message" id="loginError"></div>
+                
+                <button type="submit" class="btn-primary" id="loginBtn">
+                    Se connecter
+                </button>
+                
+                <div class="login-footer">
+                    <a href="index.html" class="back-link">← Retour à l'accueil</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script src="admin-auth.js"></script>
+</body>
+</html>

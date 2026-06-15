@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TransFlash - Dashboard Administrateur</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="admin-style.css">
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar">
+            <div class="sidebar-header">
+                <div class="logo-text">
+                    <span class="trans">TRANS</span>
+                    <span class="flash">FLASH</span>
+                </div>
+                <p>Administration</p>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="#dashboard" class="nav-item active" data-section="dashboard">
+                    <span class="nav-icon">📊</span>
+                    Dashboard
+                </a>
+                <a href="#transfers" class="nav-item" data-section="transfers">
+                    <span class="nav-icon">💸</span>
+                    Transferts
+                </a>
+                <a href="#users" class="nav-item" data-section="users">
+                    <span class="nav-icon">👥</span>
+                    Utilisateurs
+                </a>
+                <a href="#rates" class="nav-item" data-section="rates">
+                    <span class="nav-icon">💱</span>
+                    Taux de change
+                </a>
+                <a href="#settings" class="nav-item" data-section="settings">
+                    <span class="nav-icon">⚙️</span>
+                    Paramètres
+                </a>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <button class="logout-btn" id="logoutBtn">
+                    <span class="nav-icon">🚪</span>
+                    Déconnexion
+                </button>
+            </div>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="admin-main">
+            <header class="admin-header-bar">
+                <h1 id="pageTitle">Dashboard</h1>
+                <div class="admin-user-info">
+                    <span>Bienvenue, <strong id="adminUserName">Administrateur</strong></span>
+                </div>
+            </header>
+            
+            <!-- Dashboard Section -->
+            <section id="dashboard" class="admin-section active">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">💰</div>
+                        <div class="stat-content">
+                            <h3>Transferts aujourd'hui</h3>
+                            <p class="stat-number" id="todayTransfers">127</p>
+                            <span class="stat-change positive">+12%</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">📈</div>
+                        <div class="stat-content">
+                            <h3>Volume total</h3>
+                            <p class="stat-number" id="totalVolume">2.4M €</p>
+                            <span class="stat-change positive">+8%</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">👤</div>
+                        <div class="stat-content">
+                            <h3>Nouveaux utilisateurs</h3>
+                            <p class="stat-number" id="newUsers">45</p>
+                            <span class="stat-change positive">+15%</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">⏱️</div>
+                        <div class="stat-content">
+                            <h3>Transferts en attente</h3>
+                            <p class="stat-number" id="pendingTransfers">8</p>
+                            <span class="stat-change neutral">-</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="dashboard-charts">
+                    <div class="chart-card">
+                        <h3>Transferts par pays (7 derniers jours)</h3>
+                        <div class="chart-placeholder">
+                            <div class="country-stat">
+                                <span class="country-flag">🇲🇦</span>
+                                <span class="country-name">Maroc</span>
+                                <div class="progress-bar-chart">
+                                    <div class="progress-fill" style="width: 85%"></div>
+                                </div>
+                                <span class="country-count">342</span>
+                            </div>
+                            <div class="country-stat">
+                                <span class="country-flag">🇬🇦</span>
+                                <span class="country-name">Gabon</span>
+                                <div class="progress-bar-chart">
+                                    <div class="progress-fill" style="width: 65%"></div>
+                                </div>
+                                <span class="country-count">261</span>
+                            </div>
+                            <div class="country-stat">
+                                <span class="country-flag">🇨🇮</span>
+                                <span class="country-name">Côte d'Ivoire</span>
+                                <div class="progress-bar-chart">
+                                    <div class="progress-fill" style="width: 45%"></div>
+                                </div>
+                                <span class="country-count">182</span>
+                            </div>
+                            <div class="country-stat">
+                                <span class="country-flag">🇸🇳</span>
+                                <span class="country-name">Sénégal</span>
+                                <div class="progress-bar-chart">
+                                    <div class="progress-fill" style="width: 35%"></div>
+                                </div>
+                                <span class="country-count">141</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Transfers Section -->
+            <section id="transfers" class="admin-section">
+                <div class="section-header">
+                    <h2>Gestion des transferts</h2>
+                    <div class="section-actions">
+                        <input type="text" placeholder="Rechercher par référence..." class="search-input" id="transferSearch">
+                        <select class="filter-select" id="statusFilter">
+                            <option value="">Tous les statuts</option>
+                            <option value="completed">Complété</option>
+                            <option value="pending">En attente</option>
+                            <option value="cancelled">Annulé</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="data-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Référence</th>
+                                <th>Expéditeur</th>
+                                <th>Bénéficiaire</th>
+                                <th>Montant</th>
+                                <th>Pays</th>
+                                <th>Statut</th>
+                                <th>Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="transfersTableBody">
+                            <!-- Les données seront chargées dynamiquement -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            
+            <!-- Users Section -->
+            <section id="users" class="admin-section">
+                <div class="section-header">
+                    <h2>Gestion des utilisateurs</h2>
+                    <div class="section-actions">
+                        <input type="text" placeholder="Rechercher un utilisateur..." class="search-input" id="userSearch">
+                        <button class="btn-primary" id="addUserBtn">Ajouter utilisateur</button>
+                    </div>
+                </div>
+                
+                <div class="data-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nom</th>
+                                <th>Email</th>
+                                <th>Téléphone</th>
+                                <th>Pays</th>
+                                <th>Transferts</th>
+                                <th>Inscription</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usersTableBody">
+                            <!-- Les données seront chargées dynamiquement -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            
+            <!-- Exchange Rates Section -->
+            <section id="rates" class="admin-section">
+                <div class="section-header">
+                    <h2>Taux de change</h2>
+                    <button class="btn-primary" id="updateRatesBtn">Mettre à jour les taux</button>
+                </div>
+                
+                <div class="rates-grid">
+                    <div class="rate-card">
+                        <div class="rate-header">
+                            <span class="currency-pair">MAD → XAF</span>
+                            <span class="rate-status active">Actif</span>
+                        </div>
+                        <div class="rate-value">655.96</div>
+                        <div class="rate-change positive">+0.5%</div>
+                        <div class="rate-actions">
+                            <button class="btn-secondary btn-sm">Modifier</button>
+                        </div>
+                    </div>
+                    
+                    <div class="rate-card">
+                        <div class="rate-header">
+                            <span class="currency-pair">EUR → XAF</span>
+                            <span class="rate-status active">Actif</span>
+                        </div>
+                        <div class="rate-value">655.96</div>
+                        <div class="rate-change negative">-0.2%</div>
+                        <div class="rate-actions">
+                            <button class="btn-secondary btn-sm">Modifier</button>
+                        </div>
+                    </div>
+                    
+                    <div class="rate-card">
+                        <div class="rate-header">
+                            <span class="currency-pair">MAD → XOF</span>
+                            <span class="rate-status active">Actif</span>
+                        </div>
+                        <div class="rate-value">65.50</div>
+                        <div class="rate-change positive">+1.2%</div>
+                        <div class="rate-actions">
+                            <button class="btn-secondary btn-sm">Modifier</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Settings Section -->
+            <section id="settings" class="admin-section">
+                <div class="section-header">
+                    <h2>Paramètres système</h2>
+                </div>
+                
+                <div class="settings-grid">
+                    <div class="setting-card">
+                        <h3>Frais de transfert</h3>
+                        <div class="setting-content">
+                            <label>Frais minimum (€)</label>
+                            <input type="number" value="5" class="setting-input">
+                            <label>Pourcentage (%)</label>
+                            <input type="number" value="5" step="0.1" class="setting-input">
+                        </div>
+                        <button class="btn-primary btn-sm">Sauvegarder</button>
+                    </div>
+                    
+                    <div class="setting-card">
+                        <h3>Limites de transfert</h3>
+                        <div class="setting-content">
+                            <label>Montant minimum (€)</label>
+                            <input type="number" value="1" class="setting-input">
+                            <label>Montant maximum (€)</label>
+                            <input type="number" value="10000" class="setting-input">
+                        </div>
+                        <button class="btn-primary btn-sm">Sauvegarder</button>
+                    </div>
+                    
+                    <div class="setting-card">
+                        <h3>Notifications</h3>
+                        <div class="setting-content">
+                            <label class="checkbox-label">
+                                <input type="checkbox" checked>
+                                <span class="checkmark"></span>
+                                Notifications email
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" checked>
+                                <span class="checkmark"></span>
+                                Notifications SMS
+                            </label>
+                        </div>
+                        <button class="btn-primary btn-sm">Sauvegarder</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    
+    <script src="admin-dashboard.js"></script>
+</body>
+</html>
